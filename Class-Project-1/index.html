@@ -33,16 +33,16 @@
    
   
     <!--Search for Team-->
-    <form>
-      <div>
-        <input type="search" id="mySearch" name="q" placeholder="Fútbol Club" />
-        <button>Search</button>
-      </div>
-    </form>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Fútbol Club" aria-label="Fútbol Club" aria-describedby="button-addon2">
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+    </div>
+   
     <!--Start of Team info-->
 
     <!--First row: Team info, Leage Dropdown Selector, Standings-->
 
+    <!--Team Info-->
     <div class="container">
       <div class="row align-tems-center">
         <div class="col">
@@ -54,6 +54,9 @@
             </div>
           </div>
         </div>
+        <!--League DropDown Selector-->
+        <div class="card">
+          <div class="card-body">
         <div class="col">
           <div class="dropdown">
             <button
@@ -67,6 +70,11 @@
             </button>
           </div>
         </div>
+        </div>
+        </div>
+      <!--Standings-->
+      <div class="card">
+        <div class="card-body">
         <div class="col">
           <div
             id="wg-api-football-standings"
@@ -86,6 +94,8 @@
           ></script>
         </div>
       </div>
+    </div>
+    </div>
     </div>
 
     <!--Second Row: Overall Stats (W/D/L), Leage Specific Stats (W/D/L)-->
