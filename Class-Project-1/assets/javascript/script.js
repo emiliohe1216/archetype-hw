@@ -18,6 +18,7 @@ const searchButton = document.getElementById('searchButton')
 searchButton.addEventListener('click', (event) =>{
 	event.preventDefault();
 let teamName = teamNameInput.value; 
+let teamID = clubID.data;
 
 fetch(`https://v3.football.api-sports.io/teams?name=${teamName}`, {
 	"method": "GET",
@@ -35,19 +36,52 @@ fetch(`https://v3.football.api-sports.io/teams?name=${teamName}`, {
 	console.log(err);
 })
 
+fetch(`https://v3.football.api-sports.io/fixtures?season=2024?team=${teamID}?next=1`, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "v3.football.api-sports.io",
+		"x-rapidapi-key": footballKey
+	}
+})
+.then(response => {
+	console.log(response);
+	displayFixtureData(data);
+})
+.catch(err => {
+	console.log(err);
+});
+
+
+
+
+
 });
 
 function displayTeamData (data) {
 	const clubName = data.response[0].team.name;
+	const clubCity = data.response[0].venue.city;
 	const teamCountry = data.response[0].team.country;
 	const teamLogo = data.response[0].team.logo;
 
 	const teamNameElement = document.querySelector('#team-card .card-title');
-	const teamCountryElement = document.querySelector('#team-card .card-text');
+	const teamCityElement = document.querySelector('#team-card .card-text1');
+	const teamCountryElement = document.querySelector('#team-card .card-text2');
 	const teamLogoElement = document.querySelector('#team-logo');
 
 	teamNameElement.textContent = clubName;
+	teamCityElement.textContent = clubCity;
 	teamCountryElement.textContent = teamCountry;
 	teamLogoElement.src = teamLogo;
+	teamLogoElement.style.width = '150px';
+	teamLogoElement.style.height = '150px';
+	teamLogoElement.style.margin = 'auto';
+
 }
 
+function clubID (data) {
+	const teamID = data.response[0].team.id;
+	}
+
+// function displayFixtureData (data) {
+
+// }
