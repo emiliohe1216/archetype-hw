@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/styelsheet/style.css" />
+    <title>Fútbol Central</title>
+  </head>
+  <body>
+    <!-- Banner and Navbar -->
+    <div class="nav-container">
+      <div class="p-3 mb-2 bg-success text-white">
+        <div class="container-fluid">
+          <a class="navbar-brand">
+            <img
+              src="./assets/images/FC-Logo.png"
+              alt="Logo"
+              width="60"
+              height="48"
+              class="d-inline-block align-text-top"
+            />
+          </a>
+          <h1>Fútbol Central</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search for Team -->
+    <div class="container" id="searchbar">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-md-6 col-lg-6">
+          <div class="search-container position-relative">
+            <form class="d-flex align-items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon feather feather-search"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                class="form-control search-input ps-5"
+                type="search"
+                placeholder="Fútbol Club Search..."
+                aria-label="Search"
+                id="team-name"
+              />
+              <button class="btn btn-search ms-2" type="submit" id="searchButton">Search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Info -->
+    <div id="teaminfo">
+      <div class="container overflow-hidden text-center">
+        <div class="row gy-5">
+          <div class="col-12 col-lg-4 col-md-6">
+            <div class="card" style="width: 18rem">
+              <img src="" class="card-img-top" alt="Team Logo" id="team-logo" />
+              <div class="card-body" id="team-card">
+                <h5 class="card-title" id="team-name">Placeholder Team Name</h5>
+                <p class="card-text" id="team-country">Placeholder Country</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="spacer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="text-center">Fútbol Club</p>
+    </footer>
+
+  </body>
+
+  <script>
+    const footballKey = 'b6e34e3420441ef09c2b786b23b70a9f';
+    const teamNameInput = document.getElementById('team-name');
+    const searchButton = document.getElementById('searchButton');
+
+    // API-FOOTBALL
+    searchButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      let teamName = teamNameInput.value;
+
+      fetch(`https://v3.football.api-sports.io/teams?name=${teamName}`, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "v3.football.api-sports.io",
+          "x-rapidapi-key": footballKey
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          displayTeamData(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+
+    function displayTeamData(data) {
+      const clubName = data.response[0].team.name;
+      const teamCountry = data.response[0].team.country;
+      const teamLogo = data.response[0].team.logo;
+
+      // Get the elements where the data will be displayed
+      const teamNameElement = document.querySelector('#team-card .card-title');
+      const teamCountryElement = document.querySelector('#team-card .card-text');
+      const teamLogoElement = document.querySelector('#team-logo');
+
+      // Set the content of the elements
+      teamNameElement.textContent = clubName;
+      teamCountryElement.textContent = teamCountry;
+      teamLogoElement.src = teamLogo;
+    }
+  </script>
+</html>
